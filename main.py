@@ -1,5 +1,4 @@
-"""Interactive Black-76 calculator for individual options and portfolios.
-
+"""Black-76 calculator for individual options and portfolios.
 Run this file to enter positions, review P&L and try optional scenarios/charts.
 Run test_options.py separately to check pricing, Greeks and portfolio math.
 """
@@ -75,7 +74,7 @@ def main():
         strike = read_number("Enter strike price:")
 
         premium = read_number("Enter trade premium price:")
-        while premium < 0:
+        while premium <= 0:
             print("Premium cannot be negative.")
             premium = read_number("Enter trade premium (points):")
 
@@ -121,9 +120,7 @@ def main():
             portfolio.append(position_data)
             print("Positions stored:", len(portfolio))
 
-            greeks = black76_greeks(
-                selection, futures_price, strike, years, iv, rate_annualized
-            )
+            greeks = black76_greeks(selection, futures_price, strike, years, iv, rate_annualized)
 
             # Delta and gamma
             if (
@@ -263,9 +260,7 @@ def main():
 
         while input("Run a scenario for the whole portfolio? (yes/no):").strip().lower() == "yes":
             portfolio_move = read_number("Portfolio futures price change in points:")
-            portfolio_iv_change = read_number(
-                "Portfolio IV change (0.01 = +1 percentage point):"
-            )
+            portfolio_iv_change = read_number("Portfolio IV change (0.01 = +1 percentage point):")
             portfolio_days = read_number("Portfolio days passed:")
 
             while portfolio_days < 0 or portfolio_days > shortest_dte:
@@ -282,14 +277,8 @@ def main():
             if scenario_result is None:
                 print("Scenario could not be calculated for every position.")
             else:
-                print(
-                    "Portfolio scenario P&L from entry (cash):",
-                    round(scenario_result["pnl"], 2),
-                )
-                print(
-                    "Portfolio scenario change from baseline (cash):",
-                    round(scenario_result["change_from_baseline"], 2),
-                )
+                print("Portfolio scenario P&L from entry (cash):", round(scenario_result["pnl"], 2),)
+                print("Portfolio scenario change from baseline (cash):", round(scenario_result["change_from_baseline"], 2),)
 
 
     # Optional portfolio P&L chart

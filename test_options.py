@@ -52,9 +52,7 @@ def analytical_benchmark_greeks(selection):
     """
     futures, strike, years, iv, rate = 620.0, 600.0, 0.5, 0.2, 0.05
     discount = math.exp(-rate * years)
-    d1 = (
-        math.log(futures / strike) + 0.5 * iv**2 * years
-    ) / (iv * math.sqrt(years))
+    d1 = (math.log(futures / strike) + 0.5 * iv**2 * years) / (iv * math.sqrt(years))
     cdf = 0.5 * math.erfc(-d1 / math.sqrt(2.0))
     density = math.exp(-0.5 * d1**2) / math.sqrt(2.0 * math.pi)
     reference_prices = {

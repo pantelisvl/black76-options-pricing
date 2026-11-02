@@ -37,11 +37,7 @@ def plot_portfolio_pnl(positions):
     import numpy as np
     import matplotlib.pyplot as plt
 
-    futures_grid = np.linspace(
-        baseline_futures * 0.90,
-        baseline_futures * 1.10,
-        101,
-    )
+    futures_grid = np.linspace(baseline_futures * 0.90, baseline_futures * 1.10, 101,)
     baseline_index = len(futures_grid) // 2
     futures_grid[baseline_index] = baseline_futures
 

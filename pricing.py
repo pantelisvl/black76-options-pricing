@@ -42,9 +42,7 @@ def black76_price(selection, futures_price, strike, years, iv, rate_annualized):
 
         return discount_factor * intrinsic_value
 
-    d1 = (
-        math.log(futures_price / strike) + 0.5 * iv**2 * years
-    ) / (iv * math.sqrt(years))
+    d1 = (math.log(futures_price / strike) + 0.5 * iv**2 * years) / (iv * math.sqrt(years))
     d2 = d1 - iv * math.sqrt(years)
 
     normal = NormalDist()
@@ -60,9 +58,7 @@ def black76_price(selection, futures_price, strike, years, iv, rate_annualized):
 
 
 def black76_greeks(selection, futures_price, strike, years, iv, rate_annualized):
-    option_price = black76_price(
-        selection, futures_price, strike, years, iv, rate_annualized
-    )
+    option_price = black76_price(selection, futures_price, strike, years, iv, rate_annualized)
 
     if option_price is None:
         return None
@@ -74,22 +70,14 @@ def black76_greeks(selection, futures_price, strike, years, iv, rate_annualized)
     rho = None
 
     if years > 0 and iv > 0 and futures_price > 1:
-        price_up = black76_price(
-            selection, futures_price + 1, strike, years, iv, rate_annualized
-        )
-        price_down = black76_price(
-            selection, futures_price - 1, strike, years, iv, rate_annualized
-        )
+        price_up = black76_price(selection, futures_price + 1, strike, years, iv, rate_annualized)
+        price_down = black76_price(selection, futures_price - 1, strike, years, iv, rate_annualized)
         delta = (price_up - price_down) / 2.0
         gamma = price_up + price_down - 2 * option_price
 
     if iv >= 0.01:
-        price_iv_up = black76_price(
-            selection, futures_price, strike, years, iv + 0.01, rate_annualized
-        )
-        price_iv_down = black76_price(
-            selection, futures_price, strike, years, iv - 0.01, rate_annualized
-        )
+        price_iv_up = black76_price(selection, futures_price, strike, years, iv + 0.01, rate_annualized)
+        price_iv_down = black76_price(selection, futures_price, strike, years, iv - 0.01, rate_annualized)
         vega = (price_iv_up - price_iv_down) / 2.0
 
     if years >= 1 / 365.0:
@@ -104,12 +92,8 @@ def black76_greeks(selection, futures_price, strike, years, iv, rate_annualized)
         if price_one_day_later is not None:
             theta = price_one_day_later - option_price
 
-    price_rate_up = black76_price(
-        selection, futures_price, strike, years, iv, rate_annualized + 0.01
-    )
-    price_rate_down = black76_price(
-        selection, futures_price, strike, years, iv, rate_annualized - 0.01
-    )
+    price_rate_up = black76_price(selection, futures_price, strike, years, iv, rate_annualized + 0.01)
+    price_rate_down = black76_price(selection, futures_price, strike, years, iv, rate_annualized - 0.01)
 
     if price_rate_up is not None and price_rate_down is not None:
         rho = (price_rate_up - price_rate_down) / 2.0
